@@ -1,18 +1,38 @@
-use clap::Parser;
+use clap::{Parser, Subcommand};
+use colored::*;
 
-#[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
-struct Args {
-    #[arg(short, long)]
-    name: String,
-    #[arg(short, long, default_value_t = 1)]
-    count: u8,
+mod libs;
+use libs::logo::McCliLogo;
+
+const VERSION: &str = env!("CARGO_PKG_VERSION");
+
+#[derive(Parser)]
+#[command(name = "mc-cli")]
+struct Cli {
+    #[command(subcommand)]
+    command: Commands
+}
+
+#[derive(Subcommand)]
+enum Commands {
+    #[command(name = "interactive", about = "Starts the interactive mode")]
+    Interactive,
+    #[command(name = "version", about = "version")]
+    Version,
 }
 
 fn main() {
-    let args = Args::parse();
-
-    for _ in 0..args.count {
-        println!("Hello {}!", args.name);
+    let cli = Cli::parse();
+    
+    match cli.command {
+        Commands::Interactive => {
+            println!("Interactive mode");
+        },
+        Commands::Version => {
+            let logo = McCliLogo::new();
+            logo.display();
+            print!("{}", "mc-cli version: ".green());
+            print!("{}", VERSION.yellow().bold());
+        },
     }
 }
