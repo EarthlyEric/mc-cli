@@ -1,4 +1,4 @@
-use colored::*;
+use owo_colors::OwoColorize;
 
 pub struct McCliLogo {
     logo: &'static str,

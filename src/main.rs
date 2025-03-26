@@ -1,8 +1,9 @@
 use clap::{Parser, Subcommand};
-use colored::*;
+use owo_colors::OwoColorize;
 
 mod libs;
 use libs::logo::McCliLogo;
+use libs::utils;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 
@@ -26,7 +27,8 @@ fn main() {
     
     match cli.command {
         Commands::Interactive => {
-            println!("Interactive mode");
+            utils::print_gradient_text("Welcome to mc-cli", (255, 0, 0), (0, 0, 255), true);
+            
         },
         Commands::Version => {
             let logo = McCliLogo::new();
