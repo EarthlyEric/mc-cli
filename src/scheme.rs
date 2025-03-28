@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use std::{path::PathBuf};
+use std::path::PathBuf;
 
 #[derive(Parser)]
 #[command(name = "mc-cli")]
@@ -25,8 +25,10 @@ pub struct ServerArgs {
 pub enum Commands {
     #[command(name = "interactive", about = "Starts the interactive mode")]
     Interactive,
+
     #[command(name = "version", about = "Show mcCLI's version")]
     Version,
+
     #[command(name = "server", about = "Server management commands")]
     Server(ServerArgs),
 }
