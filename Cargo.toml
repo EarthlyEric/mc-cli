@@ -6,4 +6,5 @@ edition = "2024"
 [dependencies]
 clap = { version = "4.5.32", features = ["derive"] }
 inquire = "0.7.5"
+msp = "0.1.2"
 owo-colors = "4.2.0"
