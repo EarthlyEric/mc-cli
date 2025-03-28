@@ -1,3 +1,4 @@
+use std::process::Command;
 use owo_colors::OwoColorize;
 
 pub fn print_gradient_text(text: &str, start: (u8, u8, u8), end: (u8, u8, u8), is_new_line: bool) {
@@ -15,5 +16,13 @@ pub fn print_gradient_text(text: &str, start: (u8, u8, u8), end: (u8, u8, u8), i
 
     if is_new_line {
         println!();
+    }
+}
+
+pub fn clear_terminal() {
+    if cfg!(target_os = "windows") {
+        Command::new("cmd").arg("/c").arg("cls").status().unwrap();
+    } else {
+        Command::new("clear").status().unwrap();
     }
 }

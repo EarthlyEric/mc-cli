@@ -1,0 +1,43 @@
+name: Rust CI
+
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
+
+            - name: Install Rust toolchain
+              uses: actions-rs/toolchain@v1
+              with:
+                  toolchain: stable
+                  override: true
+                  components: clippy
+
+            - name: Cache Cargo registry
+              uses: actions/cache@v3
+              with:
+                  path: ~/.cargo/registry
+                  key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+
+            - name: Cache Cargo git index
+              uses: actions/cache@v3
+              with:
+                  path: ~/.cargo/git
+                  key: ${{ runner.os }}-cargo-git-${{ hashFiles('**/Cargo.lock') }}
+
+            - name: Build
+              run: cargo build --verbose
+
+            - name: Test
+              run: cargo test --verbose
+
+            - name: Lint
+              run: cargo clippy --all-targets --all-features -- -D warnings

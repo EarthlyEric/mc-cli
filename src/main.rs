@@ -24,6 +24,8 @@ enum Commands {
 
 fn main() {
     let cli = Cli::parse();
+
+    utils::clear_terminal();
     
     match cli.command {
         Commands::Interactive => {
