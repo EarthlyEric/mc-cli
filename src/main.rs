@@ -1,26 +1,14 @@
-use clap::{Parser, Subcommand};
+use clap::Parser;
 use owo_colors::OwoColorize;
 
 mod libs;
 use libs::logo::McCliLogo;
 use libs::utils;
 
+mod scheme;
+use scheme::{Cli, Commands};
+
 const VERSION: &str = env!("CARGO_PKG_VERSION");
-
-#[derive(Parser)]
-#[command(name = "mc-cli")]
-struct Cli {
-    #[command(subcommand)]
-    command: Commands
-}
-
-#[derive(Subcommand)]
-enum Commands {
-    #[command(name = "interactive", about = "Starts the interactive mode")]
-    Interactive,
-    #[command(name = "version", about = "version")]
-    Version,
-}
 
 fn main() {
     let cli = Cli::parse();
@@ -38,5 +26,9 @@ fn main() {
             print!("{}", "mc-cli version: ".green());
             print!("{}", VERSION.yellow().bold());
         },
+        Commands::Server(args) => {
+            println!("{}: {}", "Target server".green(), args.target);
+            println!("{}: {}", "Port".green(), args.port);
+        }
     }
 }
